@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
+import { MobileNav } from "@/components/MobileNav";
 
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -30,12 +31,13 @@ export const viewport: Viewport = {
   themeColor: "#ffffff",
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-GH" className={`${bricolage.variable} ${figtree.variable}`}>
-      <body className="min-h-dvh">
+      <body className="min-h-dvh flex flex-col">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[60] focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
@@ -43,9 +45,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         <Header />
-        <main id="main">{children}</main>
+        <main id="main" className="flex-1 pb-16 md:pb-0">{children}</main>
         <Footer />
         <CartDrawer />
+        <MobileNav />
       </body>
     </html>
   );

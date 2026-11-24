@@ -61,13 +61,13 @@ export function SearchBar({ className = "" }: { className?: string }) {
           autoComplete="off"
           aria-controls={listId}
           aria-expanded={showPanel}
-          className="h-11 w-full rounded-full border border-line bg-paper pl-10 pr-10 text-[0.95rem] text-ink placeholder:text-ink-soft/80 focus:border-ink focus:outline-none [&::-webkit-search-cancel-button]:hidden"
+          className="h-10 sm:h-11 w-full rounded-full border border-line bg-paper pl-10 pr-10 text-base md:text-[0.95rem] text-ink placeholder:text-ink-soft/80 focus:border-ink focus:outline-none [&::-webkit-search-cancel-button]:hidden"
         />
         {query && (
           <button
             type="button"
             onClick={() => setQuery("")}
-            className="absolute right-2 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full text-ink-soft hover:bg-cotton"
+            className="absolute right-1.5 top-1/2 grid size-8 -translate-y-1/2 place-items-center rounded-full text-ink-soft hover:bg-cotton active:bg-cotton"
             aria-label="Clear search"
           >
             <X className="size-4" />
@@ -78,7 +78,7 @@ export function SearchBar({ className = "" }: { className?: string }) {
       {showPanel && (
         <div
           id={listId}
-          className="absolute inset-x-0 top-[calc(100%+6px)] z-50 overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_12px_32px_-12px_rgba(31,42,68,0.35)]"
+          className="absolute inset-x-0 top-[calc(100%+6px)] z-50 max-h-[60vh] overflow-y-auto rounded-2xl border border-line bg-paper shadow-[0_12px_32px_-12px_rgba(31,42,68,0.35)]"
         >
           {results.length === 0 ? (
             <p className="px-4 py-4 text-sm text-ink-soft">
@@ -94,7 +94,7 @@ export function SearchBar({ className = "" }: { className?: string }) {
                       setOpen(false);
                       setQuery("");
                     }}
-                    className="flex items-center gap-3 px-3 py-2.5 hover:bg-cotton focus-visible:bg-cotton"
+                    className="flex min-h-[52px] items-center gap-3 px-3.5 py-2.5 hover:bg-cotton focus-visible:bg-cotton active:bg-cotton"
                   >
                     <span className="relative size-11 shrink-0 overflow-hidden rounded-lg bg-cotton">
                       <Image src={p.images[0]} alt="" fill sizes="44px" className="object-cover" />

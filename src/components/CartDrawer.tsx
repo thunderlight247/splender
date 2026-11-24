@@ -199,7 +199,7 @@ export function CartDrawer() {
                         <button
                           type="button"
                           onClick={() => remove(item.key)}
-                          className="-mr-1 -mt-1 grid size-8 shrink-0 place-items-center rounded-full text-ink-soft hover:bg-cotton hover:text-pillar"
+                          className="tap-interactive -mr-1 -mt-1 grid size-9 shrink-0 place-items-center rounded-full text-ink-soft hover:bg-cotton hover:text-pillar active:scale-90"
                           aria-label={`Remove ${item.name}`}
                         >
                           <Trash2 className="size-4" />
@@ -209,23 +209,23 @@ export function CartDrawer() {
                         {item.variantLabel}: {item.variant}
                       </p>
                       <div className="mt-auto flex items-center justify-between pt-2">
-                        <div className="flex items-center rounded-full border border-line">
+                        <div className="flex items-center rounded-full border border-line bg-paper shadow-xs">
                           <button
                             type="button"
                             onClick={() => setQuantity(item.key, item.quantity - 1)}
-                            className="grid size-8 place-items-center rounded-full hover:bg-cotton"
+                            className="tap-interactive grid size-9 place-items-center rounded-full hover:bg-cotton active:scale-90"
                             aria-label={`Decrease quantity of ${item.name}`}
                           >
                             <Minus className="size-3.5" />
                           </button>
-                          <span className="w-7 text-center text-sm font-semibold tabular-nums" aria-live="polite">
+                          <span className="w-8 text-center text-sm font-semibold tabular-nums" aria-live="polite">
                             {item.quantity}
                           </span>
                           <button
                             type="button"
                             onClick={() => setQuantity(item.key, item.quantity + 1)}
                             disabled={item.quantity >= MAX_QTY}
-                            className="grid size-8 place-items-center rounded-full hover:bg-cotton disabled:opacity-40"
+                            className="tap-interactive grid size-9 place-items-center rounded-full hover:bg-cotton active:scale-90 disabled:opacity-40"
                             aria-label={`Increase quantity of ${item.name}`}
                           >
                             <Plus className="size-3.5" />
@@ -315,16 +315,16 @@ export function CartDrawer() {
               </fieldset>
             </div>
 
-            <div className="border-t border-line bg-paper px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
+            <div className="border-t border-line bg-paper px-5 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-lg">
               <div className="mb-3 flex items-baseline justify-between">
-                <span className="text-sm text-ink-soft">Subtotal</span>
-                <span className="text-xl font-bold tabular-nums">{formatGHS(subtotal)}</span>
+                <span className="text-sm font-medium text-ink-soft">Subtotal</span>
+                <span className="text-xl font-bold tabular-nums text-ink">{formatGHS(subtotal)}</span>
               </div>
               <button
                 type="submit"
-                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-btn bg-turf font-semibold text-white transition-colors hover:bg-turf-dark"
+                className="tap-interactive inline-flex h-12 w-full items-center justify-center gap-2 rounded-btn bg-turf font-semibold text-white shadow-md transition-all hover:bg-turf-dark active:scale-[0.98]"
               >
-                <WhatsAppIcon />
+                <WhatsAppIcon className="size-5" />
                 Complete Order via WhatsApp
               </button>
               <p className="mt-2 text-center text-xs text-ink-soft">
@@ -339,7 +339,7 @@ export function CartDrawer() {
 }
 
 const inputClass = (invalid: boolean) =>
-  `h-11 w-full rounded-btn border bg-paper px-3.5 text-[0.95rem] focus:outline-none focus:ring-2 focus:ring-ink/20 ${
+  `h-11 w-full rounded-btn border bg-paper px-3.5 text-base sm:text-[0.95rem] transition-colors focus:outline-none focus:ring-2 focus:ring-ink/20 ${
     invalid ? "border-pillar" : "border-line focus:border-ink"
   }`;
 
@@ -361,7 +361,7 @@ function Field({
       </label>
       {children}
       {error && (
-        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-pillar">
+        <p id={`${id}-error`} className="mt-1.5 text-xs font-medium text-pillar animate-fade-in-up">
           {error}
         </p>
       )}
@@ -391,8 +391,8 @@ function FulfilmentOption({
       role="radio"
       aria-checked={checked}
       onClick={() => onChange(value)}
-      className={`flex flex-col items-start gap-1 rounded-xl border-2 p-3 text-left transition-colors ${
-        checked ? "border-ink bg-paper" : "border-line bg-paper/60 hover:border-ink/40"
+      className={`tap-interactive flex flex-col items-start gap-1 rounded-xl border-2 p-3 text-left transition-all active:scale-95 ${
+        checked ? "border-ink bg-paper shadow-xs scale-[1.01]" : "border-line bg-paper/60 hover:border-ink/40"
       }`}
     >
       <span className={checked ? "text-pillar" : "text-ink-soft"}>{icon}</span>

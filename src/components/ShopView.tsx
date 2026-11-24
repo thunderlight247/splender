@@ -123,7 +123,7 @@ export function ShopView() {
           <button
             type="button"
             onClick={() => setFiltersOpen(true)}
-            className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-btn border border-line bg-paper px-4 text-sm font-semibold sm:flex-none lg:hidden"
+            className="tap-interactive inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-btn border border-line bg-paper px-4 text-sm font-semibold shadow-sm transition-all hover:bg-cotton active:scale-95 sm:flex-none lg:hidden"
           >
             <SlidersHorizontal className="size-4" />
             Filters{active.length > 0 && ` (${active.length})`}
@@ -135,7 +135,7 @@ export function ShopView() {
             id="sort"
             value={sort}
             onChange={(e) => setParam("sort", e.target.value === "featured" ? null : e.target.value)}
-            className="h-11 flex-1 rounded-btn border border-line bg-paper px-3 text-sm font-semibold sm:flex-none"
+            className="h-11 flex-1 rounded-btn border border-line bg-paper px-3 text-base sm:text-sm font-semibold text-ink shadow-sm transition-colors focus:border-ink focus:outline-none sm:flex-none"
           >
             {SORTS.map((s) => (
               <option key={s.slug} value={s.slug}>
@@ -210,34 +210,37 @@ export function ShopView() {
           aria-modal="true"
           aria-label="Filters"
           inert={!filtersOpen}
-          className={`absolute inset-x-0 bottom-0 flex max-h-[85dvh] flex-col rounded-t-[1.75rem] bg-paper transition-transform duration-300 ease-out ${
+          className={`absolute inset-x-0 bottom-0 flex max-h-[85dvh] flex-col rounded-t-[1.75rem] bg-paper shadow-2xl transition-transform duration-300 ease-out ${
             filtersOpen ? "translate-y-0" : "translate-y-full"
           }`}
         >
-          <div className="flex items-center justify-between border-b border-line px-5 py-4">
+          {/* Visual sheet handle for mobile */}
+          <div className="mx-auto mt-2.5 mb-0.5 h-1.5 w-12 rounded-full bg-line/80" aria-hidden />
+
+          <div className="flex items-center justify-between border-b border-line px-5 py-3">
             <h2 className="font-display text-xl font-bold">Filters</h2>
             <button
               type="button"
               onClick={() => setFiltersOpen(false)}
-              className="grid size-10 place-items-center rounded-full hover:bg-cotton"
+              className="tap-interactive grid size-10 place-items-center rounded-full hover:bg-cotton active:scale-90"
               aria-label="Close filters"
             >
               <X className="size-5" />
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto px-5 py-5">{filterPanel}</div>
-          <div className="flex gap-2 border-t border-line px-5 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+          <div className="flex-1 overflow-y-auto px-5 py-5 overscroll-contain">{filterPanel}</div>
+          <div className="flex gap-2.5 border-t border-line px-5 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
             <button
               type="button"
               onClick={clearAll}
-              className="h-12 flex-1 rounded-btn border border-line font-semibold"
+              className="tap-interactive h-12 flex-1 rounded-btn border border-line font-semibold shadow-sm transition-all hover:bg-cotton active:scale-95"
             >
               Clear all
             </button>
             <button
               type="button"
               onClick={() => setFiltersOpen(false)}
-              className="h-12 flex-[2] rounded-btn bg-pillar font-semibold text-white"
+              className="tap-interactive h-12 flex-[2] rounded-btn bg-pillar font-semibold text-white shadow-sm transition-all hover:bg-pillar-dark active:scale-95"
             >
               Show {results.length} {results.length === 1 ? "product" : "products"}
             </button>

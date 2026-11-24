@@ -47,7 +47,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   };
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-card border border-line bg-paper">
+    <article className="group flex flex-col overflow-hidden rounded-card border border-line bg-paper shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 active:scale-[0.99]">
       <Link href={href} className="relative block aspect-square overflow-hidden bg-cotton">
         <Image
           src={product.images[0]}
@@ -55,24 +55,24 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           fill
           priority={priority}
           sizes="(min-width: 1024px) 280px, (min-width: 640px) 33vw, 50vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
-        <span className="absolute left-2.5 top-2.5 rounded-full bg-paper/95 px-2.5 py-1 text-xs font-bold text-ink">
+        <span className="absolute left-2.5 top-2.5 rounded-full bg-paper/95 px-2.5 py-1 text-xs font-bold text-ink shadow-sm backdrop-blur-sm">
           {product.isBundle ? "Bundle" : product.tag}
         </span>
       </Link>
 
-      <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
+      <div className="flex flex-1 flex-col gap-1.5 p-3 sm:p-4">
         <StockBadge inStock={product.inStock} />
-        <h3 className="font-display text-[1.02rem] font-semibold leading-snug">
-          <Link href={href} className="hover:underline underline-offset-2">
+        <h3 className="font-display text-[0.98rem] sm:text-[1.05rem] font-semibold leading-snug line-clamp-2 min-h-[2.5rem]">
+          <Link href={href} className="hover:text-pillar transition-colors underline-offset-2">
             {product.name}
           </Link>
         </h3>
-        <p className="text-lg font-bold tabular-nums">{formatGHS(product.price)}</p>
+        <p className="text-base sm:text-lg font-bold tabular-nums text-ink">{formatGHS(product.price)}</p>
 
         {product.variants.length > 1 && (
-          <div>
+          <div className="mt-0.5">
             <label htmlFor={selectId} className="sr-only">
               {product.variantLabel}
             </label>
@@ -80,7 +80,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
               id={selectId}
               value={variant}
               onChange={(e) => setVariant(e.target.value)}
-              className="h-10 w-full rounded-btn border border-line bg-cotton px-3 text-sm font-medium"
+              className="h-9 sm:h-10 w-full rounded-xl border border-line bg-cotton px-2.5 text-base sm:text-xs font-medium text-ink transition-colors focus:border-ink focus:outline-none"
             >
               {product.variants.map((v) => (
                 <option key={v} value={v}>
@@ -91,17 +91,23 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           </div>
         )}
 
-        <div className="mt-auto grid grid-cols-[1fr_auto] gap-2 pt-1">
+        <div className="mt-auto grid grid-cols-[1fr_auto] gap-2 pt-2">
           <button
             type="button"
             onClick={addToCart}
             disabled={!product.inStock}
             aria-label={`Add ${product.name} to cart`}
-            className="inline-flex h-11 items-center justify-center gap-2 whitespace-nowrap rounded-btn bg-pillar px-3 text-sm font-semibold text-white transition-colors hover:bg-pillar-dark disabled:cursor-not-allowed disabled:opacity-50"
+            className={`tap-interactive inline-flex h-10 sm:h-11 items-center justify-center gap-1.5 whitespace-nowrap rounded-btn px-2.5 sm:px-3 text-xs sm:text-sm font-semibold text-white shadow-sm transition-all disabled:cursor-not-allowed disabled:opacity-50 ${
+              added ? "bg-turf" : "bg-pillar hover:bg-pillar-dark"
+            }`}
           >
-            {added ? <Check className="size-4" /> : <ShoppingBag className="size-4" />}
             {added ? (
-              "Added"
+              <Check className="size-4 animate-cart-pop" />
+            ) : (
+              <ShoppingBag className="size-4" />
+            )}
+            {added ? (
+              "Added!"
             ) : (
               <>
                 <span className="sm:hidden">Add</span>
@@ -112,11 +118,11 @@ export function ProductCard({ product, priority = false }: { product: Product; p
           <button
             type="button"
             onClick={orderOnWhatsApp}
-            className="grid size-11 place-items-center rounded-btn bg-turf text-white transition-colors hover:bg-turf-dark"
+            className="tap-interactive grid size-10 sm:size-11 shrink-0 place-items-center rounded-btn bg-turf text-white shadow-sm transition-all hover:bg-turf-dark"
             aria-label={`Order ${product.name} on WhatsApp`}
             title="Order on WhatsApp"
           >
-            <WhatsAppIcon />
+            <WhatsAppIcon className="size-4.5" />
           </button>
         </div>
       </div>

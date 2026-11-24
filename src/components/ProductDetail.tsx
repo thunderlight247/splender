@@ -44,10 +44,10 @@ export function ProductDetail({ product }: { product: Product }) {
   };
 
   return (
-    <div className="mt-3 grid gap-8 md:grid-cols-2 md:gap-12">
+    <div className="mt-3 grid gap-8 pb-20 md:grid-cols-2 md:gap-12 md:pb-0">
       {/* Gallery */}
       <div>
-        <div className="relative aspect-square overflow-hidden rounded-[1.75rem] border border-line bg-paper">
+        <div className="relative aspect-square overflow-hidden rounded-[1.75rem] border border-line bg-paper shadow-sm">
           <Image
             key={product.images[imageIndex]}
             src={product.images[imageIndex]}
@@ -55,20 +55,20 @@ export function ProductDetail({ product }: { product: Product }) {
             fill
             priority
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover"
+            className="animate-fade-in-up object-cover transition-all duration-300"
           />
         </div>
         {product.images.length > 1 && (
-          <ul className="mt-3 flex gap-2" aria-label="Product photos">
+          <ul className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1" aria-label="Product photos">
             {product.images.map((src, i) => (
-              <li key={src}>
+              <li key={src} className="shrink-0">
                 <button
                   type="button"
                   onClick={() => setImageIndex(i)}
                   aria-label={`Show photo ${i + 1}`}
                   aria-current={i === imageIndex}
-                  className={`relative block size-18 overflow-hidden rounded-xl border-2 bg-paper sm:size-20 ${
-                    i === imageIndex ? "border-ink" : "border-transparent opacity-70 hover:opacity-100"
+                  className={`tap-interactive relative block size-16 sm:size-20 overflow-hidden rounded-xl border-2 bg-paper transition-all ${
+                    i === imageIndex ? "border-ink ring-2 ring-ink/20 scale-95" : "border-line opacity-75 hover:opacity-100"
                   }`}
                 >
                   <Image src={src} alt="" fill sizes="80px" className="object-cover" />
@@ -82,18 +82,18 @@ export function ProductDetail({ product }: { product: Product }) {
       {/* Details */}
       <div className="flex flex-col">
         <StockBadge inStock={product.inStock} />
-        <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+        <h1 className="mt-2 font-display text-2xl sm:text-3xl md:text-4xl font-extrabold leading-tight tracking-tight text-ink">
           {product.name}
         </h1>
         <p className="mt-1 text-sm text-ink-soft">
           For {product.ages.map(ageLabel).join(" & ").toLowerCase()} · {product.tag}
         </p>
-        <p className="mt-4 text-3xl font-bold tabular-nums">{formatGHS(product.price)}</p>
+        <p className="mt-3 sm:mt-4 text-2xl sm:text-3xl font-bold tabular-nums text-ink">{formatGHS(product.price)}</p>
 
-        <p className="mt-5 max-w-prose leading-relaxed text-ink-soft">{product.description}</p>
+        <p className="mt-4 sm:mt-5 max-w-prose leading-relaxed text-ink-soft text-sm sm:text-base">{product.description}</p>
         <ul className="mt-4 space-y-1.5">
           {product.highlights.map((h) => (
-            <li key={h} className="flex items-start gap-2 text-sm">
+            <li key={h} className="flex items-start gap-2 text-sm text-ink">
               <Check className="mt-0.5 size-4 shrink-0 text-turf" />
               {h}
             </li>
@@ -101,8 +101,8 @@ export function ProductDetail({ product }: { product: Product }) {
         </ul>
 
         {/* Size / age selector */}
-        <fieldset className="mt-7">
-          <legend className="mb-2.5 text-sm font-semibold">
+        <fieldset className="mt-6 sm:mt-7">
+          <legend className="mb-2 text-sm font-semibold">
             {product.variantLabel}: <span className="font-normal text-ink-soft">{variant}</span>
           </legend>
           <div className="flex flex-wrap gap-2" role="radiogroup">
@@ -115,8 +115,10 @@ export function ProductDetail({ product }: { product: Product }) {
                   role="radio"
                   aria-checked={checked}
                   onClick={() => setVariant(v)}
-                  className={`min-w-14 rounded-xl border-2 px-3.5 py-2.5 text-sm font-semibold transition-colors ${
-                    checked ? "border-ink bg-ink text-paper" : "border-line bg-paper hover:border-ink/50"
+                  className={`tap-interactive min-h-[44px] min-w-14 rounded-xl border-2 px-3.5 py-2 text-sm font-semibold transition-all ${
+                    checked
+                      ? "border-ink bg-ink text-paper shadow-sm scale-[1.02]"
+                      : "border-line bg-paper text-ink hover:border-ink/50"
                   }`}
                 >
                   {v}
@@ -126,14 +128,14 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
         </fieldset>
 
-        {/* Quantity + add */}
+        {/* Quantity + add (Desktop / in-page buttons) */}
         <div className="mt-6 flex gap-3">
-          <div className="flex h-12 items-center rounded-btn border border-line bg-paper" aria-label="Quantity">
+          <div className="flex h-12 items-center rounded-btn border border-line bg-paper shadow-sm" aria-label="Quantity">
             <button
               type="button"
               onClick={() => setQty((q) => Math.max(1, q - 1))}
               disabled={qty <= 1}
-              className="grid h-full w-11 place-items-center disabled:opacity-40"
+              className="tap-interactive grid h-full w-11 place-items-center disabled:opacity-40"
               aria-label="Decrease quantity"
             >
               <Minus className="size-4" />
@@ -145,7 +147,7 @@ export function ProductDetail({ product }: { product: Product }) {
               type="button"
               onClick={() => setQty((q) => Math.min(MAX_QTY, q + 1))}
               disabled={qty >= MAX_QTY}
-              className="grid h-full w-11 place-items-center disabled:opacity-40"
+              className="tap-interactive grid h-full w-11 place-items-center disabled:opacity-40"
               aria-label="Increase quantity"
             >
               <Plus className="size-4" />
@@ -155,9 +157,11 @@ export function ProductDetail({ product }: { product: Product }) {
             type="button"
             onClick={addToCart}
             disabled={!product.inStock}
-            className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-btn bg-pillar px-5 font-semibold text-white transition-colors hover:bg-pillar-dark disabled:opacity-50"
+            className={`tap-interactive inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-btn px-5 font-semibold text-white shadow-sm transition-all disabled:opacity-50 ${
+              added ? "bg-turf" : "bg-pillar hover:bg-pillar-dark"
+            }`}
           >
-            {added ? <Check className="size-5" /> : <ShoppingBag className="size-5" />}
+            {added ? <Check className="size-5 animate-cart-pop" /> : <ShoppingBag className="size-5" />}
             {added ? "Added to cart" : "Add to Cart"}
           </button>
         </div>
@@ -165,13 +169,13 @@ export function ProductDetail({ product }: { product: Product }) {
         <button
           type="button"
           onClick={quickOrder}
-          className="mt-3 inline-flex h-12 items-center justify-center gap-2 rounded-btn border-2 border-turf font-semibold text-turf transition-colors hover:bg-turf hover:text-white"
+          className="tap-interactive mt-3 inline-flex h-12 items-center justify-center gap-2 rounded-btn border-2 border-turf font-semibold text-turf shadow-sm transition-all hover:bg-turf hover:text-white"
         >
           <WhatsAppIcon />
           Quick Order via WhatsApp
         </button>
 
-        <dl className="mt-8 grid gap-4 rounded-card bg-paper p-5 text-sm sm:grid-cols-2">
+        <dl className="mt-8 grid gap-4 rounded-card bg-paper p-5 text-sm sm:grid-cols-2 border border-line/60">
           <div className="flex gap-3">
             <Truck className="size-5 shrink-0 text-pillar" />
             <div>
@@ -187,6 +191,38 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           </div>
         </dl>
+      </div>
+
+      {/* Sticky Mobile Purchase Bar */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-paper/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-md md:hidden animate-slide-up-bottom">
+        <div className="flex items-center gap-2.5">
+          <div className="min-w-0 flex-1">
+            <span className="block text-xs font-semibold text-ink-soft truncate">{product.variantLabel}: {variant}</span>
+            <span className="block text-lg font-bold tabular-nums text-ink">{formatGHS(product.price)}</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={addToCart}
+            disabled={!product.inStock}
+            className={`tap-interactive inline-flex h-11 flex-[2] items-center justify-center gap-1.5 rounded-btn px-3 text-sm font-semibold text-white shadow-sm transition-all disabled:opacity-50 ${
+              added ? "bg-turf" : "bg-pillar hover:bg-pillar-dark"
+            }`}
+          >
+            {added ? <Check className="size-4 animate-cart-pop" /> : <ShoppingBag className="size-4" />}
+            {added ? "Added!" : "Add to Cart"}
+          </button>
+
+          <button
+            type="button"
+            onClick={quickOrder}
+            className="tap-interactive grid size-11 shrink-0 place-items-center rounded-btn bg-turf text-white shadow-sm transition-all hover:bg-turf-dark"
+            aria-label="Order on WhatsApp"
+            title="Order on WhatsApp"
+          >
+            <WhatsAppIcon className="size-5" />
+          </button>
+        </div>
       </div>
     </div>
   );

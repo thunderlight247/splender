@@ -39,7 +39,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
       <nav aria-label="Breadcrumb" className="text-sm text-ink-soft">
         <Link
           href={`/shop?category=${product.category}`}
-          className="inline-flex items-center gap-1 rounded-lg py-1 font-medium hover:text-ink"
+          className="tap-interactive inline-flex items-center gap-1 rounded-lg py-1.5 pr-2 font-medium hover:text-ink transition-colors active:scale-95"
         >
           <ChevronLeft className="size-4" />
           {categoryLabel(product.category)}
