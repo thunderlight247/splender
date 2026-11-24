@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/*
+  Splendy design tokens
+  Colours are taken from the real Tema storefront: the navy sign banner,
+  the red pillars, the green turf and bollards, and the multicolour
+  SPLENDY lettering (used only in the wordmark).
+*/
+@theme {
+  --color-cotton: #fbfaf7;
+  --color-paper: #ffffff;
+  --color-ink: #1f2a44;
+  --color-ink-soft: #55607a;
+  --color-line: #e8e4dd;
+  --color-pillar: #d42a3c;
+  --color-pillar-dark: #b01f2f;
+  --color-turf: #18865a;
+  --color-turf-dark: #116c48;
+  --color-blush: #fbe7e3;
+  --color-sky: #e6effa;
+  --color-sun: #f2b705;
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1.25rem;
+  --radius-btn: 0.875rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--color-cotton);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Hide horizontal scrollbars on swipe strips while keeping them scrollable */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* The one orchestrated motion moment: the wordmark letters settle in on load */
+@keyframes letter-drop {
+  from {
+    transform: translateY(-0.35em) rotate(-6deg);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+.letter-drop {
+  display: inline-block;
+  animation: letter-drop 520ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
